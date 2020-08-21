@@ -26,11 +26,11 @@ class Blockchain():
 
     def isValid(self):
         for i in range(1, len(self.chain)):
-            _previous = self.chain[i].hash_previous
+            _previous_hash = self.chain[i].hash_previous
             # Create a new hash for previous block
-            _current = self.chain[i-1].hash()
+            _current_hash = self.chain[i-1].hash()
             # Return INVALID if both hashesh do not match and if it does not contain declared number of zeros in the beiginning
-            if _previous != _current or _current[:self.difficulty] != "0"*self.difficulty:
+            if _previous_hash != _current_hash or _current_hash[:self.difficulty] != "0"*self.difficulty:
                 return False
 
         return True
