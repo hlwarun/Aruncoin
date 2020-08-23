@@ -35,7 +35,7 @@ def login_required(arun):
 @app.route('/')
 def home():
     # database.delete_table_items()
-    database.perform_transcation('arun', 'hlwarun', 10)
+    # database.perform_transcation('arun', 'hlwarun', 10)
     return render_template('index.html')
 
 # Creating a route for the about page
@@ -108,6 +108,41 @@ def login():
                 return redirect(url_for('login'))
 
     return render_template('login.html', title="Login")
+
+
+@app.route('/purchase/', methods=['GET', 'POST'])
+@login_required
+def purchase():
+    form = forms.PurchaseForm(request.form)
+    balance = database.get_balance(session.get('username'))
+
+    if request.method == 'POST':
+        try:
+            database.perform_transcation("MINE", session.get('username'), form.balance.data)
+            flash('You have successfully purchased your balance!', 'success')
+        except Exception as e:
+            flash(str(e), 'danger')
+        return redirect(url_for('transaction'))
+
+    return render_template('purchase.html', title="Purchase", form=form, balance=balance)
+
+
+@app.route('/transaction/', methods=['GET', 'POST'])
+@login_required
+def transaction():
+    form = forms.TransactionForm(request.form)
+    balance = database.get_balance(session.get('username'))
+
+    if request.method == 'POST':
+        try:
+            database.perform_transcation(session.get('username'), form.username.data, form.balance.data)
+            flash('Transction has been completed successfully!', 'success')
+        except Exception as e:
+            flash(str(e), 'danger')
+        return redirect(url_for('transaction'))
+
+    return render_template('transaction.html', title="Transaction", form=form, balance=balance)
+
 
 # Creating a route for the logout page
 @app.route('/logout/')

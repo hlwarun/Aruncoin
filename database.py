@@ -56,20 +56,20 @@ class Table():
 
 
 # Perform Transction using your aruncoins
-def perform_transcation(sender, recipient, amount):
+def perform_transcation(sender, recipient, balance):
     try:
-        amount = float(amount)
+        balance = float(balance)
     except ValueError:
         raise errors.TransactionError("The transction cannot be performed!")
 
     # Check if the user has sufficient balance
-    if amount > get_balance(sender) and sender != "SUPPLIER":
+    if balance > get_balance(sender) and sender != "MINE":
         raise errors.InsufficientFund("You do not have sufficient balance!")
     # Check if user transfers funds to him/herself
     elif sender == recipient:
         raise errors.TransactionError("You cannot send balance to yourself!")
     # Check if user transfers negative funds
-    elif amount <= 0.00:
+    elif balance <= 0.00:
         raise errors.TransactionError("You cannot send balance less than zero!")
     # Check if the username does not exists in the databse
     elif isnewuser(recipient):
@@ -77,7 +77,7 @@ def perform_transcation(sender, recipient, amount):
 
     blockchain = get_blockchain()
     number = len(blockchain.chain) + 1
-    data = "%s-->%s-->%s" %(sender, recipient, amount)
+    data = "%s-->%s-->%s" %(sender, recipient, balance)
     blockchain.mining(Block(number, data=data))
     sync_blockchain(blockchain)
 
