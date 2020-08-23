@@ -41,7 +41,7 @@
 			</a>
 			<div class="responsive-bar"><i class="fa fa-bars"></i></div>
 			<a href="" class="user"><i class="fa fa-user"></i></a>
-			<a href="" class="site-btn">Sign Up Free</a>
+			<a href="/register" class="site-btn">Sign Up Free</a>
 			<nav class="main-menu">
 				<ul class="menu-list">
 					<li><a href="/">Home</a></li>
@@ -52,6 +52,27 @@
 		</div>
 	</header>
 	<!-- Header section end -->
+
+
+	<!-- Page info section -->
+	{% if title %}
+		<section class="page-info-section">
+			<div class="container">
+				<h2>{{title}}</h2>
+				<div class="site-beradcamb">
+					<a href="">Home</a>
+					<span><i class="fa fa-angle-right"></i> {{title}}</span>
+				</div>
+			</div>
+		</section>
+	{% endif %}
+	<!-- Page info end -->
+
+
+	<div class="container">
+		<p></p>
+		{% include '_messages.html' %}
+	</div>
 
 
   {% block content %}{% endblock %}

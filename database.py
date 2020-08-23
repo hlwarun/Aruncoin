@@ -1,75 +1,82 @@
+from block import Block
+from chain import Blockchain
 from app import db, session
 
 class Table():
     def __init__(self, table_name, *args):
         self.table = table_name
-        # we will use each arguments in args as columns of the table
-        self.columns = '(%s)'%','.join(args)
+        self.columns = "(%s)" %",".join(args)
+        self.column_list = args
 
         if isnewtable(table_name):
             create_data = ""
-            for column in self.columnsList:
+            for column in self.column_list:
                 create_data += "%s varchar(100)," %column
 
-            cur = mysql.connection.cursor()
+            conn = db.connection.cursor()
             print("CREATE TABLE %s(%s)" %(self.table, create_data[:len(create_data)-1]))
-            cur.execute("CREATE TABLE %s(%s)" %(self.table, create_data[:len(create_data)-1]))
-            cur.close()
-
-     def getall(self):
-        cur = mysql.connection.cursor()
-        result = cur.execute("SELECT * FROM %s" %self.table)
-        data = cur.fetchall(); return data
-
-    def getone(self, search, value):
-        data = {}; cur = mysql.connection.cursor()
-        result = cur.execute("SELECT * FROM %s WHERE %s = \"%s\"" %(self.table, search, value))
-        if result > 0: data = cur.fetchone()
-        cur.close(); return data
-
-    def deleteone(self, search, value):
-        cur = mysql.connection.cursor()
-        cur.execute("DELETE from %s where %s = \"%s\"" %(self.table, search, value))
-        mysql.connection.commit(); cur.close()
-
-    def drop(self):
-        cur = mysql.connection.cursor()
-        cur.execute("DROP TABLE %s" %self.table)
-        cur.close()
+            conn.execute("CREATE TABLE %s(%s)" %(self.table, create_data[:len(create_data)-1]))
+            conn.close()
 
     def insert(self, *args):
         data = ""
         for arg in args:
             data += "\"%s\"," %(arg)
 
-        cur = mysql.connection.cursor()
-        cur.execute("INSERT INTO %s%s VALUES(%s)" %(self.table, self.columns, data[:len(data)-1]))
-        mysql.connection.commit()
-        cur.close()
+        conn = db.connection.cursor()
+        conn.execute("INSERT INTO %s%s VALUES(%s)" %(self.table, self.columns, data[:len(data)-1]))
+        db.connection.commit()
+        conn.close()
+
+    def getall(self):
+        conn = db.connection.cursor()
+        result = conn.execute("SELECT * FROM %s" %self.table)
+        data = conn.fetchall(); return data
+
+    def getone(self, search, value):
+        data = {}; conn = db.connection.cursor()
+        result = conn.execute("SELECT * FROM %s WHERE %s = \"%s\"" %(self.table, search, value))
+        if result > 0: data = conn.fetchone()
+        conn.close(); return data
+
+    def drop(self):
+        conn = db.connection.cursor()
+        conn.execute("DROP TABLE %s" %self.table)
+        conn.close()
+
+    def deleteone(self, search, value):
+        conn = db.connection.cursor()
+        conn.execute("DELETE from %s where %s = \"%s\"" %(self.table, search, value))
+        db.connection.commit(); conn.close()
+
+    def deleteall(self):
+        self.drop()
+        self.__init__(self.table, *self.column_list)
 
 
-
+# Check if the table exists already in the database
 def isnewtable(name):
-    cur = db.connection.cursor()
-
+    conn = db.connection.cursor()
     try:
-        cur.execute("SELECT * from %s"%sname)
-        cur.close
+        result = conn.execute("SELECT * from %s" %name)
+        conn.close()
     except:
         return True
     else:
         return False
 
-def sql_raw(execution):
-    cur = mysql.connection.cursor()
-    cur.execute(execution)
-    mysql.connection.commit()
-    cur.close()
-
-
+# Check if the user does not exists already in the database
 def isnewuser(username):
-    users = Table("users", "name", "email", "username", "password")
+    users = Table("users", "first_name", "last_name", "username", "email", "password")
     data = users.getall()
     usernames = [user.get('username') for user in data]
 
     return False if username in usernames else True
+
+
+
+def sql_raw(execution):
+    conn = db.connection.cursor()
+    conn.execute(execution)
+    db.connection.commit()
+    conn.close()
