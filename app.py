@@ -20,6 +20,16 @@ db = MySQL(app)
 # If imported above db cannot be imported back to database.py
 import database
 
+# Creating a login_required decorator
+def login_required(arun):
+    @wraps(arun)
+    def wrap(*args, **kwargs):
+        if 'logged_in' in session:
+            return arun(*args, **kwargs)
+        else:
+            flash('You need to first login, to access the requested page!', 'danger')
+            return redirect(url_for('login'))
+    return wrap
 
 # Creating a route for the home page
 @app.route('/')
@@ -98,9 +108,17 @@ def login():
 
     return render_template('login.html', title="Login")
 
+# Creating a route for the logout page
+@app.route('/logout/')
+@login_required
+def logout():
+    session.clear()
+    flash('You have been logged out of your account', 'success')
+    return redirect(url_for('login'))
 
 # Creating a route for the dashboard page
 @app.route('/dashboard/')
+@login_required
 def dashboard():
     return render_template('dashboard.html', title="Dashboard", session=session)
 
