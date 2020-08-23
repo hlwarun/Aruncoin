@@ -4,6 +4,7 @@ from passlib.hash import sha256_crypt
 from functools import wraps
 import config
 import forms
+import time
 
 app = Flask(__name__)
 
@@ -122,16 +123,18 @@ def purchase():
             flash('You have successfully purchased your balance!', 'success')
         except Exception as e:
             flash(str(e), 'danger')
-        return redirect(url_for('transaction'))
+        return redirect(url_for('dashboard'))
 
     return render_template('purchase.html', title="Purchase", form=form, balance=balance)
 
 
-@app.route('/transaction/', methods=['GET', 'POST'])
+@app.route('/dashboard/', methods=['GET', 'POST'])
 @login_required
-def transaction():
+def dashboard():
     form = forms.TransactionForm(request.form)
     balance = database.get_balance(session.get('username'))
+    blockchain = database.get_blockchain().chain
+    current_time = time.strftime('%H:%M:%S, %A, %d  %B %Y')
 
     if request.method == 'POST':
         try:
@@ -139,9 +142,9 @@ def transaction():
             flash('Transction has been completed successfully!', 'success')
         except Exception as e:
             flash(str(e), 'danger')
-        return redirect(url_for('transaction'))
+        return redirect(url_for('dashboard'))
 
-    return render_template('transaction.html', title="Transaction", form=form, balance=balance)
+    return render_template('dashboard.html', title="Dashboard", session=session, form=form, balance=balance, blockchain=blockchain, current_time=current_time)
 
 
 # Creating a route for the logout page
@@ -152,11 +155,6 @@ def logout():
     flash('You have been logged out of your account', 'success')
     return redirect(url_for('login'))
 
-# Creating a route for the dashboard page
-@app.route('/dashboard/')
-@login_required
-def dashboard():
-    return render_template('dashboard.html', title="Dashboard", session=session)
 
 # If we run the FLASK APP as main run the app
 if __name__ == '__main__':

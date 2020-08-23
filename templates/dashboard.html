@@ -2,63 +2,40 @@
 
 {% block content %}
 
-<section class="process-section spad">
+<section style="padding-bottom:20px;" class="process-section spad">
 	<div class="container">
 		<div class="section-title text-center">
 			<h4>Welcome to your dashboard, <strong>{{session.get('first_name')}} {{session.get('last_name')}}</strong>!</h4>
+			<h1></h1>
+			<p>Your current balance is: <strong>{{balance}}</strong></p>
 		</div>
   </div>
 </section>
 
 <!-- Contact section -->
-<section class="contact-page spad">
+<section style="padding-top:20px;" class="contact-page spad">
 	<div class="container">
 		<div class="row">
 			<div class="col-lg-7">
 				<form class="contact-form" method="POST">
           {% from "_formhelpers.html" import render_field %}
 					<div class="row">
-						<div class="col-md-12">
+            <div class="col-md-4">
 							<div class="form-group">
-								<input class="check-form" required=required name="first_name" type="text" placeholder="First Name" value={{request.form.first_name}}>
+								<input class="check-form" type="text" required=required name="username" placeholder="Username of Recipient" value={{request.form.username}}>
 								<span><i class="ti-check"></i></span>
 							</div>
 						</div>
-						<div class="col-md-12">
+            <div class="col-md-6">
 							<div class="form-group">
-								<input class="check-form" type="text" required=required name="last_name" placeholder="Last Name" value={{request.form.last_name}}>
+								<input class="check-form" required=required name="balance" type="text" placeholder="Balance Amount" value={{request.form.balance}}>
 								<span><i class="ti-check"></i></span>
 							</div>
 						</div>
-            <div class="col-md-12">
-							<div class="form-group">
-								<input class="check-form" type="text" required=required name="username" placeholder="username" value={{request.form.username}}>
-								<span><i class="ti-check"></i></span>
-							</div>
+						<div class="col-md-6">
 						</div>
-            <div class="col-md-12">
-							<div class="form-group">
-								<input class="check-form" required=required name="email" type="text" placeholder="Email Adress" value={{request.form.email}}>
-								<span><i class="ti-check"></i></span>
-							</div>
-						</div>
-            <div class="col-md-12">
-							<div class="form-group">
-								<input class="check-form" type="password" required=required name="password" placeholder="Password" value={{request.form.password}}>
-								<span><i class="ti-check"></i></span>
-							</div>
-						</div>
-            <div class="col-md-12">
-							<div class="form-group">
-								<input class="check-form" type="password" required=required name="password_confirm" placeholder="Confirm Password" value={{request.form.password_confirm}}>
-								<span><i class="ti-check"></i></span>
-							</div>
-						</div>
-						<div class="col-md-12">
-							<div class="form-group">
-								<!-- <textarea placeholder="Tell us about your question!"></textarea> -->
-							</div>
-							<button class="site-btn sb-gradients mt-4">Submit form</button>
+						<div class="col-md-6">
+							<button class="site-btn sb-gradients mt-4">Send Balance</button>
 						</div>
 					</div>
 				</form>
@@ -67,6 +44,41 @@
 	</div>
 </section>
 <!-- Contact section end -->
+
+
+<section style="padding-top:0px; padding-bottom:0px;" class="process-section spad">
+	<div class="container">
+		<div class="section-title text-center">
+			<p>The last transaction was done at: <strong>{{current_time}}</strong></p>
+		</div>
+  </div>
+</section>
+
+
+<!-- Table section -->
+<div class="container">
+  <table>
+    <tr>
+      <th>Number</th>
+			<th>Nonce</th>
+      <th>Hash</th>
+      <th>Sender</th>
+			<th>Receiver</th>
+			<th>Balance</th>
+    </tr>
+		{% for block in blockchain %}
+    <tr>
+      <td>{{block.number}}</td>
+			<td>{{block.nonce}}</td>
+      <td>{{block.hash_current()}}</td>
+      <td>{{block.data.split('-->')[0]}}</td>
+			<td>{{block.data.split('-->')[1]}}</td>
+			<td>{{block.data.split('-->')[2]}}</td>
+    </tr>
+		{% endfor %}
+  </table>
+</div>
+<!-- Table section end -->
 
 
 {% endblock %}
