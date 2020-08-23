@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<!-- Contact section -->
+<section class="contact-page spad">
+	<div class="container">
+		<div class="row">
+			<div class="col-lg-7">
+				<form class="contact-form" method="POST">
+					{% from "_formhelpers.html" import render_field %}
+					<div class="row">
+            <div class="col-md-12">
+							<div class="form-group">
+								<input class="check-form" type="text" required=required name="username" placeholder="username" value={{request.form.username}}>
+								<span><i class="ti-check"></i></span>
+							</div>
+						</div>
+            <div class="col-md-12">
+							<div class="form-group">
+								<input class="check-form" type="password" required=required name="password" placeholder="Password" value={{request.form.password}}>
+								<span><i class="ti-check"></i></span>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div class="form-group">
+								<!-- <textarea placeholder="Tell us about your question!"></textarea> -->
+							</div>
+							<button class="site-btn sb-gradients mt-4">Log In</button>
+						</div>
+					</div>
+				</form>
+        <p></p>
+        <p style="padding-left:20px;">Donot have an account? <a href="/register">Create a new account!</a></p>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- Contact section end -->
+
+
+{% endblock %}

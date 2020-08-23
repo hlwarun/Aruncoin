@@ -21,7 +21,6 @@ db = MySQL(app)
 import database
 
 
-
 # Creating a route for the home page
 @app.route('/')
 def home():
@@ -74,11 +73,34 @@ def register():
 
     return render_template('signup.html', title="Sign Up", form=form)
 
+# Creating a route for the dashboard page
+@app.route('/login/', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        username = request.form['username']
+        user_password = request.form['password']
+
+        users = database.Table("users", "first_name", "last_name", "username", "email", "password")
+        user = users.getone('username', username)
+        db_password = user.get('password')
+
+        if db_password is None:
+            flash('User with this username does not exists!', 'danger')
+            return redirect(url_for('login'))
+        else:
+            if sha256_crypt.verify(user_password, db_password):
+                login_get(username)
+                flash('Congratulations! You have been logged in to your account.', 'success')
+                return redirect(url_for('dashboard'))
+            else:
+                flash('Incorrect Password!', 'danger')
+                return redirect(url_for('login'))
+
+    return render_template('login.html', title="Login")
 
 
 # Creating a route for the dashboard page
 @app.route('/dashboard/')
-
 def dashboard():
     return render_template('dashboard.html', title="Dashboard", session=session)
 
