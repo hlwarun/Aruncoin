@@ -73,6 +73,26 @@ def isnewuser(username):
 
     return False if username in usernames else True
 
+# Get the blockchain from the MySQL database
+def get_blockchain():
+    blockchain = Blockchain()
+    blockchain_db = Table("blockchain", "number", "nonce", "hash_previous", "hash_current", "data")
+
+    for block_db in blockchain_db.getall():
+        blockchain.add(Block(int(block_db.get('number')), int(block_db.get('nonce')), block_db.get('hash_previous'), block_db.get('hash_current'), block_db.get('data')))
+    return blockchain
+
+# Sync blockchain with the new data
+def sync_blockchain(blockchain):
+    blockchain_db = Table("blockchain", "number", "nonce", "hash_previous", "hash_current", "data")
+    blockchain_db.deleteall()
+
+    for block in blockchain.chain:
+        blockchain_db.insert(str(block.number), block.nonce, block.hash_previous, block.hash_current(), block.data)
+
+# def delete_table_items():
+#     users = Table("users", "first_name", "last_name", "username", "email", "password")
+#     users.deleteall()
 
 
 def sql_raw(execution):
