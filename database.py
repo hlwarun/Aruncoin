@@ -1,3 +1,4 @@
+import errors
 from block import Block
 from chain import Blockchain
 from app import db, session
@@ -54,6 +55,49 @@ class Table():
         self.__init__(self.table, *self.column_list)
 
 
+# Perform Transction using your aruncoins
+def perform_transcation(sender, recipient, amount):
+    try:
+        amount = float(amount)
+    except ValueError:
+        raise errors.TransactionError("The transction cannot be performed!")
+
+    # Check if the user has sufficient balance
+    if amount > get_balance(sender) and sender != "SUPPLIER":
+        raise errors.InsufficientFund("You do not have sufficient balance!")
+    # Check if user transfers funds to him/herself
+    elif sender == recipient:
+        raise errors.TransactionError("You cannot send balance to yourself!")
+    # Check if user transfers negative funds
+    elif amount <= 0.00:
+        raise errors.TransactionError("You cannot send balance less than zero!")
+    # Check if the username does not exists in the databse
+    elif isnewuser(recipient):
+        raise errors.TransactionError("The user with username you entered does not exists!")
+
+    blockchain = get_blockchain()
+    number = len(blockchain.chain) + 1
+    data = "%s-->%s-->%s" %(sender, recipient, amount)
+    blockchain.mining(Block(number, data=data))
+    sync_blockchain(blockchain)
+
+
+
+# Get informations of the balance of the user
+def get_balance(username):
+    balance = 0.00
+    # Get the most recent blockchain
+    blockchain = get_blockchain()
+    for block in blockchain.chain:
+        data = block.data.split('-->')
+        # If user is sending money
+        if username == data[0]:
+            balance -= float(data[2])
+        # If user is sending money
+        if username == data[1]:
+            balance += float(data[2])
+    return balance
+
 # Check if the table exists already in the database
 def isnewtable(name):
     conn = db.connection.cursor()
@@ -79,7 +123,7 @@ def get_blockchain():
     blockchain_db = Table("blockchain", "number", "nonce", "hash_previous", "hash_current", "data")
 
     for block_db in blockchain_db.getall():
-        blockchain.add(Block(int(block_db.get('number')), int(block_db.get('nonce')), block_db.get('hash_previous'), block_db.get('hash_current'), block_db.get('data')))
+        blockchain.add_block(Block(int(block_db.get('number')), int(block_db.get('nonce')), block_db.get('hash_previous'), block_db.get('data')))
     return blockchain
 
 # Sync blockchain with the new data

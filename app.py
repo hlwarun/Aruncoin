@@ -35,6 +35,7 @@ def login_required(arun):
 @app.route('/')
 def home():
     # database.delete_table_items()
+    database.perform_transcation('arun', 'hlwarun', 10)
     return render_template('index.html')
 
 # Creating a route for the about page
