@@ -41,12 +41,15 @@
 			</a>
 			<div class="responsive-bar"><i class="fa fa-bars"></i></div>
 			<a href="" class="user"><i class="fa fa-user"></i></a>
-			<a href="/register" class="site-btn">Sign Up Free</a>
+			<a href="/register" class="site-btn">Sign Up For Free</a>
 			<nav class="main-menu">
 				<ul class="menu-list">
 					<li><a href="/">Home</a></li>
+					<li><a href="/purchase">Purchase Coin</a></li>
 					<li><a href="/about">About</a></li>
 					<li><a href="/contact">Contact</a></li>
+					<li><a href="/logout">Logout</a></li>
+					<li><a href="/dashboard"><strong>Dashboard</strong></a></li>
 				</ul>
 			</nav>
 		</div>
@@ -129,8 +132,8 @@
 			<div class="member">
 				<div class="member-text">
 					<div class="member-img set-bg" data-setbg="{{ url_for('static', filename='img/member/1.jpg') }}"></div>
-					<h2>Tom Binegar</h2>
-					<span>Business Development</span>
+					<h2>Arun Ghimire</h2>
+					<span>Ceo Aruncoin</span>
 				</div>
 				<div class="member-social">
 					<a href=""><i class="fa fa-facebook"></i></a>
@@ -140,10 +143,13 @@
 				<div class="member-info">
 					<div class="member-img mf set-bg" data-setbg="{{ url_for('static', filename='img/member/1.jpg') }}"></div>
 					<div class="member-meta">
-						<h2>Tom Binegar</h2>
-						<span>Marketing Director</span>
+						<h2>Arun Ghimire</h2>
+						<span>Ceo Aruncoin</span>
 					</div>
-					<p>Jackson Nash is a full-time faculty member of the Marketing and Behavioural Science Division at the Sauder School of Business at UBC. He leads the Entrepreneurship Group, in the undergraduate and graduate programs, teaching actively in both of these.</p>
+					<p>
+						Arun Ghimire is a full-time faculty member of the Marketing and Behavioural Science Division at the Sauder School of Business at UBC.
+						He leads the Entrepreneurship Group, in the undergraduate and graduate programs, teaching actively in both of these.
+					</p>
 				</div>
 			</div>
 			<!-- Team member -->
@@ -151,7 +157,7 @@
 				<div class="member-text">
 					<div class="member-img set-bg" data-setbg="{{ url_for('static', filename='img/member/2.jpg') }}"></div>
 					<h2>Jackson Nash</h2>
-					<span>Business Development</span>
+					<span>Marketing Director</span>
 				</div>
 				<div class="member-social">
 					<a href=""><i class="fa fa-facebook"></i></a>
@@ -164,7 +170,10 @@
 						<h2>Jackson Nash</h2>
 						<span>Marketing Director</span>
 					</div>
-					<p>Jackson Nash is a full-time faculty member of the Marketing and Behavioural Science Division at the Sauder School of Business at UBC. He leads the Entrepreneurship Group, in the undergraduate and graduate programs, teaching actively in both of these.</p>
+					<p>
+						Jackson Nash is a full-time faculty member of the Marketing and Behavioural Science Division at the Sauder School of Business at UBC.
+						He leads the Entrepreneurship Group, in the undergraduate and graduate programs, teaching actively in both of these.
+					</p>
 				</div>
 			</div>
 			<!-- Team member -->
@@ -182,10 +191,13 @@
 				<div class="member-info">
 					<div class="member-img mf set-bg" data-setbg="{{ url_for('static', filename='img/member/3.jpg') }}"></div>
 					<div class="member-meta">
-						<h2>Aaron Ballance</h2>
-						<span>Ceo Bitcoin</span>
+						<h2>Tom Binegar</h2>
+						<span>Business Development</span>
 					</div>
-					<p>Jackson Nash is a full-time faculty member of the Marketing and Behavioural Science Division at the Sauder School of Business at UBC. He leads the Entrepreneurship Group, in the undergraduate and graduate programs, teaching actively in both of these.</p>
+					<p>
+						Tom Binegar is a full-time faculty member of the Marketing and Behavioural Science Division at the Sauder School of Business at UBC.
+						He leads the Entrepreneurship Group, in the undergraduate and graduate programs, teaching actively in both of these.
+					</p>
 				</div>
 			</div>
 			<!-- Team member -->
@@ -206,7 +218,10 @@
 						<h2>Melissa Barth</h2>
 						<span>Product Manager</span>
 					</div>
-					<p>Jackson Nash is a full-time faculty member of the Marketing and Behavioural Science Division at the Sauder School of Business at UBC. He leads the Entrepreneurship Group, in the undergraduate and graduate programs, teaching actively in both of these.</p>
+					<p>
+						Melissa Barth is a full-time faculty member of the Marketing and Behavioural Science Division at the Sauder School of Business at UBC.
+						He leads the Entrepreneurship Group, in the undergraduate and graduate programs, teaching actively in both of these.
+					</p>
 				</div>
 			</div>
 			<!-- Team member -->
@@ -227,7 +242,10 @@
 						<h2>Katy Abrams</h2>
 						<span>Head of Design</span>
 					</div>
-					<p>Jackson Nash is a full-time faculty member of the Marketing and Behavioural Science Division at the Sauder School of Business at UBC. He leads the Entrepreneurship Group, in the undergraduate and graduate programs, teaching actively in both of these.</p>
+					<p>
+						Katy Abrams is a full-time faculty member of the Marketing and Behavioural Science Division at the Sauder School of Business at UBC.
+						He leads the Entrepreneurship Group, in the undergraduate and graduate programs, teaching actively in both of these.
+					</p>
 				</div>
 			</div>
 		</div>
@@ -243,13 +261,25 @@
 					<img src="{{ url_for('static', filename='img/quote.png') }}" alt="" class="quote mb-5">
 					<div class="review-text-slider owl-carousel">
 						<div class="review-text">
-							<p>"Bitcoin is exciting because it shows how cheap it can be. Bitcoin is better than currency in that you don’t have to be physically in the same place and, of course, for large transactions, currency can get pretty inconvenient.”</p>
+							<p>
+								"Aruncoin is exciting because it shows how cheap it can be.
+								Aruncoin is better than currency in that you don’t have to be physically in the same place and, of course, for large transactions,
+								currency can get pretty inconvenient.”
+							</p>
 						</div>
 						<div class="review-text">
-							<p>"Bitcoin is exciting because it shows how cheap it can be. Bitcoin is better than currency in that you don’t have to be physically in the same place and, of course, for large transactions, currency can get pretty inconvenient.”</p>
+							<p>
+								"Aruncoin is exciting because it shows how cheap it can be.
+								Aruncoin is better than currency in that you don’t have to be physically in the same place and, of course, for large transactions,
+								currency can get pretty inconvenient.”
+							</p>
 						</div>
 						<div class="review-text">
-							<p>"Bitcoin is exciting because it shows how cheap it can be. Bitcoin is better than currency in that you don’t have to be physically in the same place and, of course, for large transactions, currency can get pretty inconvenient.”</p>
+							<p>
+								"Aruncoin is exciting because it shows how cheap it can be.
+								Aruncoin is better than currency in that you don’t have to be physically in the same place and, of course, for large transactions,
+								currency can get pretty inconvenient.”
+							</p>
 						</div>
 					</div>
 				</div>
@@ -258,8 +288,8 @@
 						<div class="author-meta">
 							<div class="author-avatar set-bg" data-setbg="{{ url_for('static', filename='img/review/1.jpg') }}"></div>
 							<div class="author-name">
-								<h4>Aaron Ballance</h4>
-								<p>Ceo Bitcoin</p>
+								<h4>Arun Ghimire</h4>
+								<p>Ceo Aruncoin</p>
 							</div>
 						</div>
 						<div class="author-meta">

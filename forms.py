@@ -11,6 +11,11 @@ class RegisterForm(Form):
     password_confirm = PasswordField('Confirm Password', validators=[DataRequired(), Length(min=6, max=20)])
 
 
+# Form to login to an existing users
+class LoginForm(Form):
+    username = StringField('Userame', validators=[DataRequired(), Length(min=2, max=50)])
+    password = PasswordField('Password', validators=[DataRequired(), Length(min=6, max=20)])
+
 # Form to Purchase balance
 class PurchaseForm(Form):
     balance = StringField('Balance', validators=[DataRequired(), Length(min=2, max=10)])

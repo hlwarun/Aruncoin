@@ -78,7 +78,7 @@ def register():
             password = sha256_crypt.encrypt(form.password.data)
             users.insert(first_name, last_name, username, email, password)
             login_get(username)
-            return redirect(url_for('dashboard'))
+            return redirect(url_for('login'))
         else:
             flash('User with this username already exists. Please try again with different username!', 'danger')
             return redirect(url_for('register'))
@@ -88,9 +88,11 @@ def register():
 # Creating a route for the dashboard page
 @app.route('/login/', methods=['GET', 'POST'])
 def login():
+    form = forms.LoginForm(request.form)
+
     if request.method == 'POST':
-        username = request.form['username']
-        user_password = request.form['password']
+        username = form.username.data
+        user_password = form.password.data
 
         users = database.Table("users", "first_name", "last_name", "username", "email", "password")
         user = users.getone('username', username)
